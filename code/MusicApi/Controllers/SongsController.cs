@@ -6,10 +6,10 @@ namespace MusicApi.Controllers
   [Route("api/[controller]")]
   public class SongsController : Controller
   {
-    private static IList<Song> _songs = new List<Song>
+    private IList<Song> _songs = new List<Song>
     {
       new Song { Id = Guid.Parse("26f16538-8fed-4c9f-a559-d8750c15b477"), Title = "Song 1", Language = "English" },
-      new Song { Id = Guid.Parse("7c340bb5-0200-49ef-a5de-6eed7ed2a522"), Title = "Song 2", Language = "English" },
+      new Song { Id = Guid.Parse("7c340bb5-0200-49ef-a5de-6eed7ed2a522"), Title = "Song 2", Language = "German" },
     };
 
     private readonly ILogger<SongsController> _logger;
@@ -22,6 +22,7 @@ namespace MusicApi.Controllers
     [HttpGet]
     public IEnumerable<Song> Get()
     {
+      Console.WriteLine($"Hello World from {System.Diagnostics.Process.GetCurrentProcess().Id}");
       return _songs;
     }
 
