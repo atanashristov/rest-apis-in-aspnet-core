@@ -1,63 +1,61 @@
 using Microsoft.AspNetCore.Mvc;
+using MusicApi.Data;
 using MusicApi.Models;
 
 namespace MusicApi.Controllers
 {
   [Route("api/[controller]")]
-  public class SongsController : Controller
+  public class SongsController : ControllerBase
   {
-    private IList<Song> _songs = new List<Song>
-    {
-      new Song { Id = Guid.Parse("26f16538-8fed-4c9f-a559-d8750c15b477"), Title = "Song 1", Language = "English" },
-      new Song { Id = Guid.Parse("7c340bb5-0200-49ef-a5de-6eed7ed2a522"), Title = "Song 2", Language = "German" },
-    };
-
+    private readonly MusicApiDbContext _db;
     private readonly ILogger<SongsController> _logger;
 
-    public SongsController(ILogger<SongsController> logger)
+    public SongsController(MusicApiDbContext db, ILogger<SongsController> logger)
     {
+      _db = db;
       _logger = logger;
     }
 
     [HttpGet]
-    public IEnumerable<Song> Get()
+    public IEnumerable<Song>? Get()
     {
-      Console.WriteLine($"Hello World from {System.Diagnostics.Process.GetCurrentProcess().Id}");
-      return _songs;
+      return _db.Songs;
     }
 
     [HttpGet("{id}")]
     public Song? Get(Guid id)
     {
-      return _songs.FirstOrDefault(s => s.Id == id);
+      var song = _db.Songs?.Find(id);
+      return song;
     }
 
     [HttpPost]
     public void Post([FromBody] Song song)
     {
-      _songs.Add(song);
+      _db.Songs?.Add(song);
+      _db.SaveChanges();
     }
 
     [HttpPut("{id}")]
     public void Put(Guid id, [FromBody] Song song)
     {
-      var songToUpdate = _songs.FirstOrDefault(s => s.Id == id);
-      // TODO: not found? Bad request?
-      if (songToUpdate != null)
+      var dbSong = _db.Songs?.Find(id);
+      if (dbSong != null)
       {
-        songToUpdate.Title = song.Title;
-        songToUpdate.Language = song.Language;
+        dbSong.Title = song.Title;
+        dbSong.Language = song.Language;
+        _db.SaveChanges();
       }
     }
 
     [HttpDelete("{id}")]
     public void Delete(Guid id)
     {
-      var songToDelete = _songs.FirstOrDefault(s => s.Id == id);
-      // TODO: not found? Bad request?
-      if (songToDelete != null)
+      var dbSong = _db.Songs?.Find(id);
+      if (dbSong != null)
       {
-        _songs.Remove(songToDelete);
+        _db.Songs?.Remove(dbSong);
+        _db.SaveChanges();
       }
     }
   }
