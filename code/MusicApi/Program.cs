@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using MusicApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-
 ConfigureServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();

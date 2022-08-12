@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MusicApi.Data;
 using MusicApi.Models;
 
@@ -17,15 +18,15 @@ namespace MusicApi.Controllers
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-      return Ok(_db.Songs);
+      return Ok(await _db.Songs.ToListAsync());
     }
 
     [HttpGet("{id}")]
-    public IActionResult Get(Guid id)
+    public async Task<IActionResult> Get(Guid id)
     {
-      var song = _db.Songs?.Find(id);
+      var song = await _db.Songs.FindAsync(id);
       if (song == null)
       {
         return NotFound("No song found with id " + id);
@@ -35,17 +36,18 @@ namespace MusicApi.Controllers
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] Song song)
+    public async Task<IActionResult> Post([FromBody] Song song)
     {
-      _db.Songs?.Add(song);
-      _db.SaveChanges();
+      await _db.Songs.AddAsync(song);
+      await _db.SaveChangesAsync();
+
       return StatusCode(StatusCodes.Status201Created, song);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(Guid id, [FromBody] Song song)
+    public async Task<IActionResult> Put(Guid id, [FromBody] Song song)
     {
-      var dbSong = _db.Songs?.Find(id);
+      var dbSong = await _db.Songs.FindAsync(id);
       if (dbSong == null)
       {
         return NotFound("No song found with id " + id);
@@ -53,21 +55,23 @@ namespace MusicApi.Controllers
 
       dbSong.Title = song.Title;
       dbSong.Language = song.Language;
-      _db.SaveChanges();
+      await _db.SaveChangesAsync();
+
       return Ok(dbSong);
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-      var dbSong = _db.Songs?.Find(id);
+      var dbSong = await _db.Songs.FindAsync(id);
       if (dbSong == null)
       {
         return NotFound("No song found with id " + id);
       }
 
-      _db.Songs?.Remove(dbSong);
-      _db.SaveChanges();
+      _db.Songs.Remove(dbSong);
+      await _db.SaveChangesAsync();
+
       return Ok("Record deleted");
     }
   }

@@ -7,9 +7,11 @@ namespace MusicApi.Data
   {
     public MusicApiDbContext(DbContextOptions<MusicApiDbContext> options)
       : base(options)
-    { }
+    {
+      Songs = Set<Song>();
+    }
 
-    public DbSet<Song>? Songs { get; set; }
+    public DbSet<Song> Songs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
