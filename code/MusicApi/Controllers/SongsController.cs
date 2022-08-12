@@ -29,7 +29,7 @@ namespace MusicApi.Controllers
       var song = await _db.Songs.FindAsync(id);
       if (song == null)
       {
-        return NotFound("No song found with id " + id);
+        return NotFound("Song not found");
       }
 
       return Ok(song);
@@ -41,7 +41,7 @@ namespace MusicApi.Controllers
       await _db.Songs.AddAsync(song);
       await _db.SaveChangesAsync();
 
-      return StatusCode(StatusCodes.Status201Created, song);
+      return StatusCode(StatusCodes.Status201Created, song.Id);
     }
 
     [HttpPut("{id}")]
@@ -50,14 +50,15 @@ namespace MusicApi.Controllers
       var dbSong = await _db.Songs.FindAsync(id);
       if (dbSong == null)
       {
-        return NotFound("No song found with id " + id);
+        return NotFound("Song not found");
       }
 
       dbSong.Title = song.Title;
       dbSong.Language = song.Language;
+      dbSong.Duration = song.Duration;
       await _db.SaveChangesAsync();
 
-      return Ok(dbSong);
+      return Ok();
     }
 
     [HttpDelete("{id}")]
@@ -66,13 +67,13 @@ namespace MusicApi.Controllers
       var dbSong = await _db.Songs.FindAsync(id);
       if (dbSong == null)
       {
-        return NotFound("No song found with id " + id);
+        return NotFound("Song not found");
       }
 
       _db.Songs.Remove(dbSong);
       await _db.SaveChangesAsync();
 
-      return Ok("Record deleted");
+      return Ok("Song deleted");
     }
   }
 }
