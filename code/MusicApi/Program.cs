@@ -45,12 +45,12 @@ void ConfigureMiddleware(IApplicationBuilder appBuilder, IWebHostEnvironment env
 
 void ConfigureDatabases(IServiceProvider serviceProvider)
 {
-  var serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
-  using (var serviceScope = serviceScopeFactory.CreateScope())
-  {
-    var dbContext = serviceScope?.ServiceProvider.GetService<MusicApiDbContext>();
-    dbContext?.Database.EnsureCreated();
-  }
+  // var serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
+  // using (var serviceScope = serviceScopeFactory.CreateScope())
+  // {
+  //   var dbContext = serviceScope?.ServiceProvider.GetService<MusicApiDbContext>();
+  //   dbContext?.Database.EnsureCreated();
+  // }
 }
 
 void ConfigureEndpoints(IEndpointRouteBuilder app)

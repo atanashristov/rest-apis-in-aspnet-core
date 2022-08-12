@@ -8,3 +8,39 @@ Develompment:
 cd code/MusicApi
 dotnet watch
 ```
+
+## Notes
+
+### EF: Migrations
+
+Install globally EF command line tools:
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+Add package to the project:
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore.Design
+```
+
+Verify installation:
+
+```bash
+dotnet ef
+```
+
+Create migration:
+
+```bash
+dotnet ef migrations add <Name>
+```
+
+Run migrations:
+
+```bash
+dotnet ef database update
+```
+
+See [DotNet EF CLI Tools](https://docs.microsoft.com/en-us/ef/core/cli/dotnet)
