@@ -17,46 +17,58 @@ namespace MusicApi.Controllers
     }
 
     [HttpGet]
-    public IEnumerable<Song>? Get()
+    public IActionResult Get()
     {
-      return _db.Songs;
+      return Ok(_db.Songs);
     }
 
     [HttpGet("{id}")]
-    public Song? Get(Guid id)
+    public IActionResult Get(Guid id)
     {
       var song = _db.Songs?.Find(id);
-      return song;
+      if (song == null)
+      {
+        return NotFound("No song found with id " + id);
+      }
+
+      return Ok(song);
     }
 
     [HttpPost]
-    public void Post([FromBody] Song song)
+    public IActionResult Post([FromBody] Song song)
     {
       _db.Songs?.Add(song);
       _db.SaveChanges();
+      return StatusCode(StatusCodes.Status201Created, song);
     }
 
     [HttpPut("{id}")]
-    public void Put(Guid id, [FromBody] Song song)
+    public IActionResult Put(Guid id, [FromBody] Song song)
     {
       var dbSong = _db.Songs?.Find(id);
-      if (dbSong != null)
+      if (dbSong == null)
       {
-        dbSong.Title = song.Title;
-        dbSong.Language = song.Language;
-        _db.SaveChanges();
+        return NotFound("No song found with id " + id);
       }
+
+      dbSong.Title = song.Title;
+      dbSong.Language = song.Language;
+      _db.SaveChanges();
+      return Ok(dbSong);
     }
 
     [HttpDelete("{id}")]
-    public void Delete(Guid id)
+    public IActionResult Delete(Guid id)
     {
       var dbSong = _db.Songs?.Find(id);
-      if (dbSong != null)
+      if (dbSong == null)
       {
-        _db.Songs?.Remove(dbSong);
-        _db.SaveChanges();
+        return NotFound("No song found with id " + id);
       }
+
+      _db.Songs?.Remove(dbSong);
+      _db.SaveChanges();
+      return Ok("Record deleted");
     }
   }
 }
