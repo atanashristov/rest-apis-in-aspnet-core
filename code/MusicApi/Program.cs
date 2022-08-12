@@ -16,6 +16,7 @@ app.Run();
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
   services.AddControllers();
+  services.AddMvc().AddXmlSerializerFormatters();
   // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
   services.AddEndpointsApiExplorer();
   services.AddSwaggerGen();
