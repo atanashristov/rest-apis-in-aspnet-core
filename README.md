@@ -44,3 +44,13 @@ dotnet ef database update
 ```
 
 See [DotNet EF CLI Tools](https://docs.microsoft.com/en-us/ef/core/cli/dotnet)
+
+### Azure
+
+Storage account:
+
+- Resource group "musicgroup"
+- Storage account "musicstorageaccount321"
+- Public container "songcovers"
+
+Example over image: [Image](https://musicstorageaccount321.blob.core.windows.net/songcovers/Depeche_Mode-101.jpg)

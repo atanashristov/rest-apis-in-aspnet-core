@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MusicApi.Data;
+using MusicApi.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigureServices(builder.Services, builder.Configuration);
@@ -15,6 +16,8 @@ app.Run();
 
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
+  services.AddSingleton<IFormFileUploader, FormFileUploader>();
+
   services.AddControllers();
   services.AddMvc().AddXmlSerializerFormatters();
   // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

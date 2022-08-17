@@ -27,7 +27,14 @@
 			"name": "api/songs",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"url": {
 					"raw": "{{API_URL}}api/songs",
 					"host": [
@@ -65,7 +72,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"{{$guid}}\",\r\n    \"title\": \"{{$randomPhrase}}\",\r\n    \"language\": \"English\"\r\n}",
+					"raw": "{\r\n    \"title\": \"{{$randomPhrase}}\",\r\n    \"language\": \"English\",\r\n    \"duration\": {{$randomInt}}\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -91,7 +98,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"{{$randomPhrase}}\",\r\n    \"language\": \"English\"\r\n}",
+					"raw": "{\r\n    \"title\": \"{{$randomPhrase}}\",\r\n    \"language\": \"English\",\r\n    \"duration\": {{$randomInt}}\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
