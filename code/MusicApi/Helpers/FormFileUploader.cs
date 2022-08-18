@@ -4,6 +4,7 @@ namespace MusicApi.Helpers
 {
   public class FormFileUploader : IFormFileUploader
   {
+    static readonly Random random = new Random();
     private readonly IConfiguration _configuration;
 
     public FormFileUploader(IConfiguration configuration)
@@ -15,7 +16,8 @@ namespace MusicApi.Helpers
     {
       var connectionString = _configuration.GetConnectionString("AzureStorageConnection");
       var containerClient = new BlobContainerClient(connectionString, containerName);
-      BlobClient blobClient = containerClient.GetBlobClient(formFile.FileName);
+      var fileName = random.Next(1000).ToString() + "-" + formFile.FileName;
+      BlobClient blobClient = containerClient.GetBlobClient(fileName);
 
       var memoryStream = new MemoryStream();
       await formFile.CopyToAsync(memoryStream);

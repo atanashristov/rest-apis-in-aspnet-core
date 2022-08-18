@@ -6,6 +6,7 @@ using MusicApi.Models;
 
 namespace MusicApi.Controllers
 {
+  [ApiController]
   [Route("api/[controller]")]
   public class SongsController : ControllerBase
   {
@@ -48,8 +49,16 @@ namespace MusicApi.Controllers
     // }
 
     [HttpPost]
+    // NOTE: Validation using filter attribute.
+    // [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Post([FromForm] Song song)
     {
+      // NOTE: Validation using ModelState
+      // if (!ModelState.IsValid)
+      // {
+      //   return UnprocessableEntity(ModelState);
+      // }
+
       song.ImageUrl = await _formFileUploader.UploadFormFile(song.Image);
 
       await _db.Songs.AddAsync(song);

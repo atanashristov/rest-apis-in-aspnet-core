@@ -71,13 +71,29 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"{{$randomPhrase}}\",\r\n    \"language\": \"English\",\r\n    \"duration\": {{$randomInt}}\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "{{$randomPhrase}}",
+							"type": "text"
+						},
+						{
+							"key": "language",
+							"value": "English",
+							"type": "text"
+						},
+						{
+							"key": "duration",
+							"value": "{{$randomInt}}",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/D:/Projects/Atanas/rest-apis-in-aspnet-core/assets/Depeche_Mode-Violator.jpg"
 						}
-					}
+					]
 				},
 				"url": {
 					"raw": "{{API_URL}}api/songs",

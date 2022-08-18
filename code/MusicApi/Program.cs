@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MusicApi.Data;
+using MusicApi.Filters;
 using MusicApi.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +18,14 @@ app.Run();
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
   services.AddSingleton<IFormFileUploader, FormFileUploader>();
+  // NOTE: Validation using filter attribute.
+  services.AddScoped<ValidationFilterAttribute>();
 
   services.AddControllers();
+  // NOTE: Validation setting options
+  // services.AddControllers(
+  //   options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = false);
+
   services.AddMvc().AddXmlSerializerFormatters();
   // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
   services.AddEndpointsApiExplorer();
