@@ -39,6 +39,15 @@ namespace MusicApi.Controllers
       return Ok(song);
     }
 
+
+    // Attribute routing example
+    // /api/songs/test/1 -> 1
+    [HttpGet("[action]/{id}")]
+    public IActionResult Test(int id)
+    {
+      return Ok(id);
+    }
+
     // [HttpPost]
     // public async Task<IActionResult> Post([FromBody] Song song)
     // {
