@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 
 namespace MusicApi.Models
 {
@@ -11,11 +12,9 @@ namespace MusicApi.Models
     [Required(ErrorMessage = "Name cannot be empty")]
     public string Name { get; set; } = "";
 
-    [StringLength(60, MinimumLength = 2, ErrorMessage = "Gender name must be between 2 and 60 characters")]
-    public string? Gender { get; set; }
-
     [NotMapped]
-    public IFormFile? Image { get; set; }
+    [XmlIgnore]
+    public IFormFile? ImageFile { get; set; }
 
     public string? ImageUrl { get; set; }
 

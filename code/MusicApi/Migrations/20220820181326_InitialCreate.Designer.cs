@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicApi.Migrations
 {
     [DbContext(typeof(MusicApiDbContext))]
-    [Migration("20220820162448_InitialCreate")]
+    [Migration("20220820181326_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,10 +53,6 @@ namespace MusicApi.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Gender")
-                        .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");

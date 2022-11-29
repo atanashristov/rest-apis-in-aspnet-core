@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 
 namespace MusicApi.Models
 {
@@ -12,7 +13,8 @@ namespace MusicApi.Models
     public string Name { get; set; } = "";
 
     [NotMapped]
-    public IFormFile? Image { get; set; }
+    [XmlIgnore]
+    public IFormFile? ImageFile { get; set; }
 
     public string? ImageUrl { get; set; }
 

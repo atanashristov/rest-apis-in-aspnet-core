@@ -50,7 +50,7 @@ See [DotNet EF CLI Tools](https://docs.microsoft.com/en-us/ef/core/cli/dotnet)
 Storage account:
 
 - Resource group "musicgroup"
-- Storage account "musicstorageaccount321"
-- Public container "songcovers"
+- Storage account "musicstorageaccount322"
+- Public container "musiccover"
 
-Example over image: [Image](https://musicstorageaccount321.blob.core.windows.net/songcovers/Depeche_Mode-101.jpg)
+Example over image: [Image](https://musicstorageaccount322.blob.core.windows.net/musiccover/ACDC.jpg)

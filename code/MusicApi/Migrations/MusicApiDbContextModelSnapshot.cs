@@ -52,10 +52,6 @@ namespace MusicApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Gender")
-                        .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
-
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 

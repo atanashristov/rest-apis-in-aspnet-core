@@ -24,6 +24,304 @@
 			"response": []
 		},
 		{
+			"name": "api/artists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"ARTIST_ID\", jsonData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "AC/DC",
+							"type": "text"
+						},
+						{
+							"key": "imageFile",
+							"type": "file",
+							"src": "/F:/Projects/Atanas/rest-apis-in-aspnet-core/assets/ACDC.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}api/artists",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"artists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/artists",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}api/artists",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"artists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/artists/{{ARTIST_ID}}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}api/artists/{{ARTIST_ID}}",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"artists",
+						"{{ARTIST_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/artists/{{ARTIST_ID}}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"AC/DC\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}api/artists/{{ARTIST_ID}}",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"artists",
+						"{{ARTIST_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/artists/{{ARTIST_ID}}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}api/artists/{{ARTIST_ID}}",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"artists",
+						"{{ARTIST_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/albums",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"ALBUM_ID\", jsonData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Back in Black",
+							"type": "text"
+						},
+						{
+							"key": "imageFile",
+							"type": "file",
+							"src": "/F:/Projects/Atanas/rest-apis-in-aspnet-core/assets/ACDC-Back_in_Black.jpg"
+						},
+						{
+							"key": "artistId",
+							"value": "{{ARTIST_ID}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}api/albums",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"albums"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/albums",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}api/albums",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"albums"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/albums/{{ALBUM_ID}}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}api/albums/{{ALBUM_ID}}",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"albums",
+						"{{ALBUM_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/songs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"SONG_ID\", jsonData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Have a Drink on Me",
+							"type": "text"
+						},
+						{
+							"key": "duration",
+							"value": "239",
+							"type": "text"
+						},
+						{
+							"key": "isFeatured",
+							"value": "false",
+							"type": "text"
+						},
+						{
+							"key": "imageFile",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "audioFile",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "artistId",
+							"value": "{{ARTIST_ID}}",
+							"type": "text"
+						},
+						{
+							"key": "albumId",
+							"value": "{{ALBUM_ID}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}api/songs",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "api/songs",
 			"request": {
 				"method": "GET",
@@ -36,12 +334,103 @@
 					}
 				],
 				"url": {
-					"raw": "{{API_URL}}api/songs",
+					"raw": "{{API_URL}}api/songs?pageNumber=2&pageSize=2",
 					"host": [
 						"{{API_URL}}api"
 					],
 					"path": [
 						"songs"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "2"
+						},
+						{
+							"key": "pageSize",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/songs/featured",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}api/songs/featured",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"songs",
+						"featured"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/songs/new",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}api/songs/new",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"songs",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/songs/search",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}api/songs/search?query=hell",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"songs",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "hell"
+						}
 					]
 				}
 			},
@@ -60,48 +449,6 @@
 					"path": [
 						"songs",
 						"{{SONG_ID}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "api/songs",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "title",
-							"value": "{{$randomPhrase}}",
-							"type": "text"
-						},
-						{
-							"key": "language",
-							"value": "English",
-							"type": "text"
-						},
-						{
-							"key": "duration",
-							"value": "{{$randomInt}}",
-							"type": "text"
-						},
-						{
-							"key": "image",
-							"type": "file",
-							"src": "/D:/Projects/Atanas/rest-apis-in-aspnet-core/assets/Depeche_Mode-Violator.jpg"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{API_URL}}api/songs",
-					"host": [
-						"{{API_URL}}api"
-					],
-					"path": [
-						"songs"
 					]
 				}
 			},

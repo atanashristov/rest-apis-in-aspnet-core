@@ -15,7 +15,6 @@ namespace MusicApi.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Gender = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     ImageUrl = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

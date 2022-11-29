@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 
 namespace MusicApi.Models
 {
@@ -21,16 +22,18 @@ namespace MusicApi.Models
     [Required(ErrorMessage = "Duration cannot be empty")]
     public int? Duration { get; set; }
 
-    public DateTime UploadedDate { get; set; } = DateTime.Now;
+    public DateTime UploadedDate { get; set; } = DateTime.Now.ToUniversalTime();
 
     public bool IsFeatured { get; set; } = false;
 
     [NotMapped]
-    public IFormFile? Image { get; set; }
+    [XmlIgnore]
+    public IFormFile? ImageFile { get; set; }
 
     public string? ImageUrl { get; set; }
 
     [NotMapped]
+    [XmlIgnore]
     public IFormFile? AudioFile { get; set; }
 
     public string? AudioUrl { get; set; }
