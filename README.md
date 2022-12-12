@@ -2,7 +2,7 @@
 
 Code and notes from studying [Rest Api's in Asp.Net Core and C# 2022 Edition](https://www.udemy.com/course/rest-apis-in-aspnet-core)
 
-Develompment:
+Development:
 
 ```bash
 cd code/MusicApi
@@ -10,6 +10,32 @@ dotnet watch
 ```
 
 ## Notes
+
+### Postgres DB privileges
+
+Before using migrations, create user and database in Postgres.
+
+Run below as postgres user (admin user).
+
+Create user "musicuser":
+
+```sql
+create user musicuser with encrypted password 'musicpass';
+```
+
+Create database:
+
+```sql
+create database musicdb_dev;
+```
+
+Change owner and privileges:
+
+```sql
+alter database musicdb_dev owner to musicuser;
+-- not needed:
+-- grant all privileges on database musicdb_dev to musicuser;
+```
 
 ### EF: Migrations
 

@@ -11,7 +11,7 @@ namespace MusicApi.Controllers
   public class AlbumsController : ControllerBase
   {
     private readonly MusicApiDbContext _db;
-    private readonly ILogger<AlbumsController>? _logger;
+    private readonly ILogger<AlbumsController> _logger;
     private readonly IFormFileUploader _formFileUploader;
 
     public AlbumsController(MusicApiDbContext db, ILogger<AlbumsController> logger, IFormFileUploader formFileUploader)

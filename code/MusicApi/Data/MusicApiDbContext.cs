@@ -11,11 +11,13 @@ namespace MusicApi.Data
       Songs = Set<Song>();
       Albums = Set<Album>();
       Artists = Set<Artist>();
+      Users = Set<User>();
     }
 
     public DbSet<Song> Songs { get; set; }
     public DbSet<Album> Albums { get; set; }
     public DbSet<Artist> Artists { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
