@@ -135,7 +135,13 @@
 			],
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
@@ -210,7 +216,13 @@
 			"name": "api/artists/{{ARTIST_ID}}",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"name\": \"AC/DC\"\r\n}",
@@ -267,7 +279,13 @@
 			],
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
@@ -365,7 +383,13 @@
 			],
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
@@ -431,7 +455,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{API_URL}}api/songs?pageNumber=2&pageSize=2",
+					"raw": "{{API_URL}}api/songs?pageNumber=1&pageSize=2",
 					"host": [
 						"{{API_URL}}api"
 					],
@@ -441,7 +465,7 @@
 					"query": [
 						{
 							"key": "pageNumber",
-							"value": "2"
+							"value": "1"
 						},
 						{
 							"key": "pageSize",
@@ -555,7 +579,13 @@
 			"name": "api/songs/{{SONG_ID}}",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"title\": \"{{$randomPhrase}}\",\r\n    \"language\": \"English\",\r\n    \"duration\": {{$randomInt}}\r\n}",
@@ -582,7 +612,13 @@
 			"name": "api/songs/{{SONG_ID}}",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{API_URL}}api/songs/{{SONG_ID}}",
 					"host": [

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MusicApi.Data;
@@ -21,7 +22,7 @@ namespace MusicApi.Controllers
       _formFileUploader = formFileUploader ?? throw new ArgumentNullException(nameof(formFileUploader));
     }
 
-    [HttpPost]
+    [HttpPost, Authorize(Roles = "Admin")]
     // NOTE: Validation using filter attribute.
     // [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Post([FromForm] Song song)
@@ -117,10 +118,11 @@ namespace MusicApi.Controllers
       return Ok(songs);
     }
 
-    [HttpGet("{id}/details")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetSongDetails(Guid id)
     {
       var song = await _db.Songs.FindAsync(id);
+
       if (song == null)
       {
         return NotFound("Song not found");
@@ -139,7 +141,7 @@ namespace MusicApi.Controllers
     // }
 
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}"), Authorize(Roles = "Admin")]
     public async Task<IActionResult> Put(Guid id, [FromBody] Song song)
     {
       var dbSong = await _db.Songs.FindAsync(id);
@@ -156,7 +158,7 @@ namespace MusicApi.Controllers
       return Ok();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}"), Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
       var dbSong = await _db.Songs.FindAsync(id);

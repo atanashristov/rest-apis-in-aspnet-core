@@ -1,7 +1,12 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MusicApi.Data;
 using MusicApi.Filters;
 using MusicApi.Helpers;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigureServices(builder.Services, builder.Configuration);
@@ -26,11 +31,32 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
   // services.AddControllers(
   //   options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = false);
 
+  services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+  {
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+      ValidateIssuerSigningKey = true,
+      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("AppSettings:Token").Value ?? "")),
+      ValidateIssuer = false,
+      ValidateAudience = false,
+    };
+  });
+
   services.AddMvc().AddXmlSerializerFormatters();
   // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
   services.AddEndpointsApiExplorer();
-  services.AddSwaggerGen();
+  services.AddSwaggerGen(options =>
+  {
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
+    {
+      Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+      In = ParameterLocation.Header,
+      Name = "Authorization",
+      Type = SecuritySchemeType.ApiKey,
+    });
 
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+  });
   services.AddDbContext<MusicApiDbContext>(options =>
   {
     options.UseNpgsql(configuration.GetConnectionString("MusicDbConnection")
@@ -49,7 +75,7 @@ void ConfigureMiddleware(IApplicationBuilder appBuilder, IWebHostEnvironment env
   }
 
   appBuilder.UseHttpsRedirection();
-
+  appBuilder.UseAuthentication(); // Make sure is before UseAuthorization()
   appBuilder.UseAuthorization();
 }
 

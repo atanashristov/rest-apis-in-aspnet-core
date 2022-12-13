@@ -92,6 +92,8 @@ namespace MusicApi.Controllers
       var claims = new List<Claim>
       {
         new Claim(ClaimTypes.Name, user.Id.ToString()),
+        new Claim(ClaimTypes.Role, "Role1"),
+        new Claim(ClaimTypes.Role, "Admin"),
       };
 
       var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MusicApi.Data;
@@ -21,7 +22,7 @@ namespace MusicApi.Controllers
       _formFileUploader = formFileUploader ?? throw new ArgumentNullException(nameof(formFileUploader));
     }
 
-    [HttpPost]
+    [HttpPost, Authorize(Roles = "Admin")]
     public async Task<IActionResult> Post([FromForm] Album album)
     {
       if (album.ImageFile != null)

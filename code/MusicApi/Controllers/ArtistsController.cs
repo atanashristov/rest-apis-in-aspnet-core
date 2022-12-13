@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MusicApi.Data;
@@ -21,7 +22,7 @@ namespace MusicApi.Controllers
       _formFileUploader = formFileUploader ?? throw new ArgumentNullException(nameof(formFileUploader));
     }
 
-    [HttpPost]
+    [HttpPost, Authorize(Roles = "Admin")]
     public async Task<IActionResult> Post([FromForm] Artist artist)
     {
       if (artist.ImageFile != null)
@@ -73,7 +74,7 @@ namespace MusicApi.Controllers
       return Ok(artist);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}"), Authorize(Roles = "Admin")]
     public async Task<IActionResult> Put(Guid id, [FromBody] Artist artist)
     {
       var dbArtist = await _db.Artists.FindAsync(id);
@@ -88,7 +89,7 @@ namespace MusicApi.Controllers
       return Ok();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}"), Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
       var dbArtist = await _db.Artists.FindAsync(id);
