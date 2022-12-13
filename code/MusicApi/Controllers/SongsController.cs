@@ -33,6 +33,17 @@ namespace MusicApi.Controllers
       //   return UnprocessableEntity(ModelState);
       // }
 
+      var artistExistsInDb = await _db.Artists.AnyAsync(artist => artist.Id == song.ArtistId);
+      if (!artistExistsInDb)
+      {
+        return StatusCode(StatusCodes.Status422UnprocessableEntity, "Artist not found");
+      }
+      var albumExistsInDb = await _db.Albums.AnyAsync(album => album.Id == song.AlbumId);
+      if (!albumExistsInDb)
+      {
+        return StatusCode(StatusCodes.Status422UnprocessableEntity, "Album not found");
+      }
+
       if (song.ImageFile != null)
       {
         song.ImageUrl = await _formFileUploader.UploadFormFile(song.ImageFile);

@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using MusicApi.Data;
 using MusicApi.Filters;
 using MusicApi.Helpers;
+using MusicApi.Services.UserService;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,10 @@ app.Run();
 
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
+  services.AddScoped<IUserService, UserService>();
   services.AddSingleton<IFormFileUploader, FormFileUploader>();
+  services.AddHttpContextAccessor(); // Adds default implementation to the HttpContextAccessor
+
   // NOTE: Validation using filter attribute.
   services.AddScoped<ValidationFilterAttribute>();
 
