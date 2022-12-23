@@ -2,7 +2,16 @@
 
 Code and notes from studying [Rest Api's in Asp.Net Core and C# 2022 Edition](https://www.udemy.com/course/rest-apis-in-aspnet-core)
 
-Development:
+Added authentication and authorization by Patrick God:
+
+- [Part 1/4: .NET 6 Web API 🔒 Create JSON Web Tokens (JWT) - User Registration / Login / Authentication](https://youtu.be/v7q3pEK1EA0)
+- [Part 2/4: .NET 6 Web API 🔒 Role-Based Authorization with JSON Web Tokens (JWT)](https://youtu.be/TDY_DtTEkes)
+- [Part 3/4: .NET 6 Web API 🔒 Read JWT Authorization Claims of a User (from a JSON Web Token)](https://youtu.be/fhWIkbF18lM)
+- [Part 4/4: Refresh Tokens with a .NET 6 Web API 🚀](https://youtu.be/HGIdAn2h8BA)
+
+## Development
+
+Run the following to start the server in development/watch mode:
 
 ```bash
 cd code/MusicApi

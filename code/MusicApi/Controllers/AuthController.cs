@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using MusicApi.Services.UserService;
+using System.Security.Cryptography;
 
 namespace MusicApi.Controllers
 {
@@ -54,17 +55,47 @@ namespace MusicApi.Controllers
       var dbUser = _db.Users.FirstOrDefault(dbUser => dbUser.EmailAddress == user.EmailAddress);
       if (dbUser == null)
       {
-        return BadRequest("Invalid login");
+        return StatusCode(StatusCodes.Status422UnprocessableEntity, "Invalid login");
       }
 
       if (!VerifyPasswordHash(user.Password, dbUser.PasswordHash, dbUser.PasswordSalt))
       {
-        return BadRequest("Invalid login");
+        return StatusCode(StatusCodes.Status422UnprocessableEntity, "Invalid login");
       }
 
-      await Task.FromResult(1);
-      string token = CreateToken(dbUser);
-      return Ok(new { token });
+      string token = CreateToken(dbUser.Id, dbUser.Username);
+      var refreshToken = await GenerateRefreshToken(dbUser.Id);
+      SetRefreshTokenHttpOnlyCookie(refreshToken);
+
+      return Ok(System.Text.Json.JsonSerializer.Serialize(token));
+    }
+
+    [HttpPost("refresh-token")]
+    public async Task<IActionResult> RefreshToken()
+    {
+      var refreshTokenFromCookie = Request.Cookies["refreshToken"];
+      var dbRefreshToken = _db.RefreshTokens.FirstOrDefault(x => x.Token == refreshTokenFromCookie);
+
+      if (dbRefreshToken == null)
+      {
+        return Unauthorized("Invalid refresh token");
+      }
+      if (dbRefreshToken.ExpiresAt <= DateTime.Now.ToUniversalTime())
+      {
+        return Unauthorized("Token expired");
+      }
+
+      var dbUser = _db.Users.FirstOrDefault(dbUser => dbUser.Id == dbRefreshToken.UserId);
+      if (dbUser == null)
+      {
+        return StatusCode(StatusCodes.Status422UnprocessableEntity, "Invalid user");
+      }
+
+      string token = CreateToken(dbUser.Id, dbUser.Username);
+      var refreshToken = await GenerateRefreshToken(dbUser.Id);
+      SetRefreshTokenHttpOnlyCookie(refreshToken);
+
+      return Ok(System.Text.Json.JsonSerializer.Serialize(token));
     }
 
     [HttpGet("me"), Authorize]
@@ -117,7 +148,7 @@ namespace MusicApi.Controllers
       }
     }
 
-    private string CreateToken(User user)
+    private string CreateToken(Guid userId, string? userName)
     {
       // Claims:
       // - stored in the token
@@ -126,8 +157,8 @@ namespace MusicApi.Controllers
 
       var claims = new List<Claim>
       {
-        new Claim(ClaimTypes.NameIdentifier, $"{user.Id}"),
-        new Claim(ClaimTypes.Name, $"{user.Username}"),
+        new Claim(ClaimTypes.NameIdentifier, $"{userId}"),
+        new Claim(ClaimTypes.Name, $"{userName}"),
         new Claim(ClaimTypes.Role, "Role1"),
         new Claim(ClaimTypes.Role, "Admin"),
       };
@@ -139,12 +170,45 @@ namespace MusicApi.Controllers
 
       var token = new JwtSecurityToken(
         claims: claims,
-        expires: DateTime.Now.AddDays(1),
+        expires: DateTime.Now.AddMinutes(5),
         signingCredentials: credentials);
 
       var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
       return jwt;
+    }
+
+    private async Task<RefreshToken> GenerateRefreshToken(Guid userId)
+    {
+      var refreshToken = _db.RefreshTokens
+        .Where(x => x.UserId == userId && x.ExpiresAt >= DateTime.Now.ToUniversalTime())
+        .OrderByDescending(x => x.ExpiresAt)
+        .FirstOrDefault();
+
+      if (refreshToken == null)
+      {
+        refreshToken = new RefreshToken
+        {
+          Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+          UserId = userId,
+        };
+
+        await _db.RefreshTokens.AddAsync(refreshToken);
+        await _db.SaveChangesAsync();
+      }
+
+      return refreshToken;
+    }
+
+    private void SetRefreshTokenHttpOnlyCookie(RefreshToken refreshToken)
+    {
+      var cookieOptions = new CookieOptions
+      {
+        HttpOnly = true,
+        Expires = refreshToken.ExpiresAt,
+      };
+
+      Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
     }
   }
 }

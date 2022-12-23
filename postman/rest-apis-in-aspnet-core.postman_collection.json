@@ -82,7 +82,8 @@
 					"script": {
 						"exec": [
 							"var jsonData = pm.response.json();\r",
-							"pm.environment.set(\"JWT_TOKEN\", jsonData.token);"
+							"pm.environment.set(\"JWT_TOKEN\", jsonData);\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -120,6 +121,61 @@
 			"response": []
 		},
 		{
+			"name": "api/auth/refresh-token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"JWT_TOKEN\", jsonData);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}api/auth/refresh-token",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"auth",
+						"refresh-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/auth/me",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}api/auth/me",
+					"host": [
+						"{{API_URL}}api"
+					],
+					"path": [
+						"auth",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "api/artists",
 			"event": [
 				{
@@ -148,8 +204,7 @@
 						{
 							"key": "name",
 							"value": "AC/DC",
-							"type": "text",
-							"disabled": true
+							"type": "text"
 						},
 						{
 							"key": "imageFile",

@@ -32,5 +32,7 @@ namespace MusicApi.Models
     [XmlIgnore]
     [JsonIgnore]
     public byte[] PasswordSalt { get; set; } = new byte[0];
+
+    public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
   }
 }
